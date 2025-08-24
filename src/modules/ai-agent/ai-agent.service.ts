@@ -45,7 +45,6 @@ export class AiAgentService {
     const text = response.choices[0]?.message?.content ?? '{}';
     try {
       const parsed = JSON.parse(text) as AiAgentReviewOutput;
-      // Basic sanity defaults
       return {
         summary: parsed.summary?.slice(0, 3) || [],
         suggestions: parsed.suggestions?.slice(0, 4) || [],

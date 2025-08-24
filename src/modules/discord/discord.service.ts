@@ -2,6 +2,7 @@ import { HttpService } from '@nestjs/axios';
 import { lastValueFrom } from 'rxjs';
 import { Injectable, Logger } from '@nestjs/common';
 import { DiscordEmbedField } from './discord.types';
+import { response } from 'express';
 
 @Injectable()
 export class DiscordService {
@@ -50,23 +51,14 @@ export class DiscordService {
 
   async sendReviewEmbed(params: DiscordEmbedField) {
     const payload = this.assemblePayload(params);
-    const response = await lastValueFrom(this.httpService.post(this.webhookUrl, payload, {
-      headers: { 'Content-Type': 'application/json' },
-    }))
-
-    if (response && response.status >= 200 && response.status < 300) {
-      this.logger.log('Discord webhook sent successfully.');
-      return true;
-    } else {
-      this.logger.error(`Failed to send Discord webhook: ${response?.statusText}`);
-      return false;
+    try {
+      const response = await lastValueFrom(this.httpService.post(this.webhookUrl, payload, {
+        headers: { 'Content-Type': 'application/json' },
+      }))
+    } catch (error) {
+      this.logger.error(`Discord webhook failed: ${error}`);
+      throw new Error(`Discord webhook failed: ${error}`);
     }
-  }
 
-  sendMessage(content: string) {
-    this.httpService.post(this.webhookUrl, {
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ content })
-    });
   }
 }

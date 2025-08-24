@@ -1,3 +1,5 @@
+import { AiAgentRiskLevels } from "../ai-agent/ai-agent.types";
+
 export interface DiscordEmbedField {
   repo: string;
   prNumber: number;
@@ -6,7 +8,7 @@ export interface DiscordEmbedField {
   suggestions: string[];
   tests: string[];
   learningTip: string;
-  risk: 'low' | 'medium' | 'high';
+  risk: AiAgentRiskLevels;
 }
 
 export interface DiscordMessagePayload {

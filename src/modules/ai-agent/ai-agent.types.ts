@@ -3,7 +3,7 @@ export type AiAgentReviewOutput = {
   suggestions: string[];
   tests: string[];
   learning_tip: string;
-  risk: 'low' | 'medium' | 'high';
+  risk: AiAgentRiskLevels;
 }
 
 export type AiAgentReviewInput = {
@@ -13,3 +13,5 @@ export type AiAgentReviewInput = {
   body: string;
   changedFilesSample: string;
 }
+
+export type AiAgentRiskLevels = 'low' | 'medium' | 'high';
