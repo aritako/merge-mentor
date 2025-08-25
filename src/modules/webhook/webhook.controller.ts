@@ -9,19 +9,19 @@ export class WebhookController {
 
   @Post('github')
   async handleGithubWebhook(
-    @Req() req: Request,
-    @Res() res: Response,
+    @Req() request: Request,
+    @Res() response: Response,
     @Headers('x-github-event') event: string,
     @Headers('x-hub-signature-256') signature: string,
   ) {
     try {
       const secret = process.env.GITHUB_WEBHOOK_SECRET!;
-      const rawBody = req.body // Raw
+      const rawBody = request.body // Raw
 
       // 1) Verify signature
       const ok = verifyGithubSignature({ secret, signatureHeader: signature, rawBody });
       if (!ok) {
-        return res.status(HttpStatus.UNAUTHORIZED).json({ error: 'Invalid signature' });
+        return response.status(HttpStatus.UNAUTHORIZED).json({ error: 'Invalid signature' });
       }
 
       // 2) Parse JSON safely after verifying
@@ -32,9 +32,9 @@ export class WebhookController {
         await this.webhookService.processPullRequest(payload);
       }
 
-      return res.json({ status: 'ok' });
+      return response.json({ status: 'ok' });
     } catch (e: any) {
-      return res.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message || 'error' });
+      return response.status(HttpStatus.INTERNAL_SERVER_ERROR).json({ error: e.message || 'error' });
     }
   }
 }
