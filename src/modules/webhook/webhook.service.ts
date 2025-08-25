@@ -17,27 +17,27 @@ export class WebhookService {
     if (!allowed.includes(action)) return;
 
     const pr = payload.pull_request;
-    const repoFullName = payload.repository.full_name as string;
+    const repo = payload.repository.full_name as string;
     const prNumber = pr.number as number;
     const title = pr.title as string;
     const body = (pr.body as string) || '';
     const prUrl = pr.html_url as string;
 
     // get diff files
-    const files = await this.github.getPullFiles({ repoFullName, prNumber });
+    const files = await this.github.getPullFiles({ repo, prNumber });
     const diffSample = this.github.buildDiffSample(files);
 
     // AI review
     const review = await this.aiAgent.reviewPR({
-      repo: repoFullName,
+      repo,
       prNumber,
       title,
       body,
-      changedFilesSample: diffSample,
+      diffSample,
     });
 
     await this.discord.sendReviewEmbed({
-      repo: repoFullName,
+      repo,
       prNumber,
       prUrl,
       summary: review.summary || [],

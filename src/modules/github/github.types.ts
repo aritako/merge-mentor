@@ -1,5 +1,5 @@
 export type GithubPullFilesRequest = {
-  repoFullName: string;
+  repo: string;
   prNumber: number;
 }
 

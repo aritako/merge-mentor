@@ -11,7 +11,7 @@ export type AiAgentReviewInput = {
   prNumber: number;
   title: string;
   body: string;
-  changedFilesSample: string;
+  diffSample: string;
 }
 
 export type AiAgentRiskLevels = 'low' | 'medium' | 'high';

@@ -9,7 +9,8 @@ export class GithubService {
   constructor(private readonly httpService: HttpService) { }
 
   async getPullFiles(params: GithubPullFilesRequest): Promise<GithubPullFilesResponse[]> {
-    const url = `https://api.github.com/repos/${params.repoFullName}/pulls/${params.prNumber}/files?per_page=100`
+    const { repo, prNumber } = params
+    const url = `https://api.github.com/repos/${repo}/pulls/${prNumber}/files?per_page=100`
     try {
       const response = await lastValueFrom(this.httpService.get(url,
         {
