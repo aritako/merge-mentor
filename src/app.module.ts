@@ -5,11 +5,12 @@ import { WebhookModule } from './modules/webhook/webhook.module';
 import { AiAgentModule } from './modules/ai-agent/ai-agent.module';
 import { DiscordModule } from './modules/discord/discord.module';
 import { ConfigModule } from '@nestjs/config';
+import { GithubModule } from './modules/github/github.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
-    WebhookModule, AiAgentModule, DiscordModule
+    WebhookModule, AiAgentModule, DiscordModule, GithubModule
   ],
   controllers: [AppController],
   providers: [AppService],

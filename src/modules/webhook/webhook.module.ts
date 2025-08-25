@@ -3,11 +3,11 @@ import { WebhookController } from './webhook.controller';
 import { WebhookService } from './webhook.service';
 import { AiAgentModule } from '../ai-agent/ai-agent.module';
 import { DiscordModule } from '../discord/discord.module';
-import { GithubService } from '../github/github.service';
+import { GithubModule } from '../github/github.module';
 
 @Module({
-  imports: [AiAgentModule, DiscordModule],
+  imports: [GithubModule, AiAgentModule, DiscordModule],
   controllers: [WebhookController],
-  providers: [WebhookService, GithubService]
+  providers: [WebhookService]
 })
 export class WebhookModule { }
